@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Jasmine Spec Runner</title>
+
+	<% css.forEach(function(style){ %>
+		<link rel="stylesheet" type="text/css" href="<%= style %>">
+	<% }) %>
+
+	<% with (scripts) { %>
+		<% [].concat(jasmine, vendor, helpers, src).forEach(function(script){ %>
+			<script src="<%= script %>"></script>
+		<% }) %>
+	<% } %>
+
+	<script>
+		require.config({
+			paths: {
+				"component": "test/fixtures/module"
+			}
+		});
+	</script>
+
+</head>
+<body>
+
+	<!-- Groundwork -->
+	<div id="startup">
+		<div data-gw-component="foo"></div>
+		<div data-gw-component="bar"></div>
+	</div>
+
+	<!-- Groundwork/Core -->
+	<div id="core-get-elements">
+		<div></div>
+		<div></div>
+	</div>
+
+	<!-- Groundwork/Sandbox -->
+
+	<script>
+		require(["<%= scripts.specs.join('","') %>"], function() {
+			require(["<%= [].concat(scripts.specs, scripts.reporters).join('","') %>"], function() {
+				require(["<%= scripts.start.join('","') %>"], function() {
+					// Go!
+				});
+			});
+		});
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "Groundwork",
+  "description": "A drop-in bootstrap for loading and binding AMD components to DOM elements.",
+  "main": "dist/groundwork.js",
+  "author": "Matt Hinchliffe",
+  "version": "0.1.0",
+  "keywords": [
+    "AMD",
+    "bootstrap",
+    "components"
+  ],
+  "homepage": "https://github.com/i-like-robots/groundwork",
+  "bugs": "https://github.com/i-like-robots/groundwork/issues",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:i-like-robots/groundwork.git"
+  },
+  "scripts": {
+    "test": "grunt jasmine"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "0.4.x",
+    "grunt-contrib-watch": "0.4.x",
+    "grunt-contrib-jshint": "0.1.x",
+    "grunt-contrib-uglify": "0.2.x",
+    "grunt-contrib-jasmine": "0.5.x"
+  }
+}
