@@ -12,13 +12,6 @@ define("groundwork", ["groundwork/core"], function(core) {
 
 
     /**
-     * Sandbox to inject into component instances
-     * @type {Object}
-     */
-    var sandbox = {};
-
-
-    /**
      * Loaded elements
      * @type {NodeList}
      */

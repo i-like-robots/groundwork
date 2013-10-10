@@ -94,34 +94,26 @@ define(["groundwork/core"], function(core) {
 
         it("Should create a new instance when the given module returns a constructor function", function() {
 
-            var instance = function(element) {
+            var component = function(element) {
                 expect(element).toEqual(fixture);
             };
 
-            var moduleWrapper = function() {
-                return instance;
-            };
+            var result = core.newComponent(fixture, component);
 
-            var result = core.newComponent(fixture, moduleWrapper);
-
-            expect(result instanceof instance).toEqual(true);
+            expect(result instanceof component).toEqual(true);
         });
 
         it("Should clone and call the 'init' function when the given module returns an object", function() {
 
-            var instance = {
+            var component = {
                 init: function(element) {
                     expect(element).toEqual(fixture);
                 }
             };
 
-            var moduleWrapper = function() {
-                return instance;
-            };
+            var result = core.newComponent(fixture, component);
 
-            var result = core.newComponent(fixture, moduleWrapper);
-
-            expect(Object.getPrototypeOf(result)).toEqual(instance);
+            expect(Object.getPrototypeOf(result)).toEqual(component);
         });
 
     });

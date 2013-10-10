@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 
         watch: {
             scripts: {
-                files: ["src/**/*.js"],
+                files: ["src/**/*.js", "test/**/*.js"],
                 tasks: ["jshint:dist", "jasmine:dist", "uglify:dist"]
             }
         },
@@ -26,17 +26,6 @@ module.exports = function(grunt) {
             }
         },
 
-        uglify: {
-            dist: {
-                files: [
-                    {
-                        src: "src/**/*.js",
-                        dest: "dist/groundwork.js"
-                    }
-                ]
-            },
-        },
-
         jasmine: {
             dist: {
                 src: "src/**/*.js",
@@ -46,6 +35,17 @@ module.exports = function(grunt) {
                     template: "test/runner.tmpl"
                 }
             }
+        },
+
+        uglify: {
+            dist: {
+                files: [
+                    {
+                        src: "src/**/*.js",
+                        dest: "dist/groundwork.js"
+                    }
+                ]
+            },
         }
 
     });

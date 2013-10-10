@@ -1,4 +1,4 @@
-define("groundwork/core", ["groundwork/sandbox"], function(sandbox) {
+define("groundwork/core", function() {
 
     /**
      * Component instances
@@ -64,7 +64,7 @@ define("groundwork/core", ["groundwork/sandbox"], function(sandbox) {
             var componentList = element.getAttribute(attribute).split(",");
 
             for (i = 0, len = componentList.length; i < len; i++) {
-                callback(element, componentList[i]);
+                callback.apply(this, [element, componentList[i]]);
             }
         },
 
@@ -76,14 +76,13 @@ define("groundwork/core", ["groundwork/sandbox"], function(sandbox) {
          * @return {Function|Object}
          */
         newComponent: function(element, definition) {
-            var rawModule = definition(sandbox);
             var instance;
 
-            if (rawModule.call) {
-                instance = new rawModule(element);
+            if (definition.call) {
+                instance = new definition(element);
             }
             else {
-                instance = Object.create(rawModule);
+                instance = Object.create(definition);
 
                 if (instance.hasOwnProperty("init")) {
                     instance.init(element);

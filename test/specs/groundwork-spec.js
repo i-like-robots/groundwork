@@ -1,4 +1,4 @@
-define(["groundwork"], function(gw) {
+define(["groundwork", "groundwork/core"], function(gw, core) {
 
     describe("Config", function() {
 
@@ -8,15 +8,15 @@ define(["groundwork"], function(gw) {
 
         it("Should merge the given options with the default options", function() {
 
-            var custom = {
+            var userSettings = {
                 scope: "foo",
                 attribute: "bar"
             };
 
-            gw.config(custom);
+            gw.config(userSettings);
 
-            expect(gw.options.scope).toBe(custom.scope);
-            expect(gw.options.attribute).toBe(custom.attribute);
+            expect(gw.options.scope).toBe(userSettings.scope);
+            expect(gw.options.attribute).toBe(userSettings.attribute);
 
         });
 
@@ -27,15 +27,39 @@ define(["groundwork"], function(gw) {
 
     });
 
+
     xdescribe("Startup", function() {
 
+        it("Should find elements, load modules and instantiate components", function() {
+
+        });
+
     });
+
 
     xdescribe("Shutdown", function() {
 
+        it("Should iterate through elements and teardown components", function() {
+
+        });
+
     });
 
-    xdescribe("Get component", function() {
+
+    describe("Get component", function() {
+
+        it("Should return the component instance for the given element and component name", function() {
+
+            var fixture = document.createElement("div");
+            var storage = core.getElementStorage(fixture);
+
+            storage["foo"] = "bar";
+
+            var result = gw.getComponent(fixture, "foo");
+
+            expect(result).toEqual("bar");
+
+        });
 
     });
 
