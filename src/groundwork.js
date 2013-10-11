@@ -12,13 +12,6 @@ define("groundwork", ["groundwork/core"], function(core) {
 
 
     /**
-     * Loaded elements
-     * @type {NodeList}
-     */
-    var elements = [];
-
-
-    /**
      * Public interface
      * @type {Object}
      */
@@ -45,18 +38,22 @@ define("groundwork", ["groundwork/core"], function(core) {
          * @return {Object}
          */
         startup: function() {
-            var i, len, element;
+            var i, len, element, componentList;
 
             // Set default options if .config() has not been called
             if (!this.options) {
                 this.options = Object.create(defaults);
             }
 
-            elements = core.getElements(this.options.scope, "[" + this.options.attribute + "]");
+            this.elements = core.getElements(this.options.scope, "[" + this.options.attribute + "]");
 
-            for (i = 0, len = elements.length; i < len; i++) {
-                element = elements[i];
-                core.handleElement(element, this.options.attribute, core.loadComponent);
+            for (i = 0, len = this.elements.length; i < len; i++) {
+                element = this.elements[i];
+                componentList = element.getAttribute(this.options.attribute).split(",");
+
+                for (t = 0, len_t = componentList.length; t < len_t; t++) {
+                    core.loadComponent(element, componentList[t]);
+                }
             }
 
             return this;
@@ -68,11 +65,17 @@ define("groundwork", ["groundwork/core"], function(core) {
          * @return {Object}
          */
         shutdown: function() {
-            var i, len, element;
+            var i, len, element, activeComponents, componentName;
 
-            for (i = 0, len = elements.length; i < len; i++) {
-                element = elements[i];
-                core.handleElement(element, this.options.attribute, core.unloadComponent);
+            for (i = 0, len = this.elements.length; i < len; i++) {
+                element = this.elements[i];
+                activeComponents = core.getElementStorage(element);
+
+                for (componentName in activeComponents) {
+                    if (activeComponents.hasOwnProperty(componentName)) {
+                        core.unloadComponent(element, componentName);
+                    }
+                }
             }
 
             return this;

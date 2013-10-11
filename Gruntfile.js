@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 
         jshint: {
             dist: {
-                all: ["src/**/*.js"],
+                all: "src/**/*.js",
                 options: {
                     trailing: true,
                     smarttabs: true,
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
             dist: {
                 files: [
                     {
-                        src: "src/**/*.js",
+                        src: ["src/groundwork/core.js", "src/groundwork.js"],
                         dest: "dist/groundwork.js"
                     }
                 ]

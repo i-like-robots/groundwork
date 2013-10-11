@@ -72,22 +72,6 @@ define(["groundwork/core"], function(core) {
     });
 
 
-    describe("Handle element", function() {
-
-        it("Should iterate over each value of a comma-separated string defined on the given element", function() {
-
-            var fixture = document.createElement("div");
-            fixture.setAttribute("data-gw-component", "foo,bar,baz");
-
-            core.handleElement(fixture, "data-gw-component", function(el, result) {
-                expect(result).toMatch(/foo|bar|baz/);
-            });
-
-        });
-
-    });
-
-
     describe("Create new component instance", function() {
 
         var fixture = document.createElement("div");

@@ -54,22 +54,6 @@ define("groundwork/core", function() {
 
 
         /**
-         * Handle element
-         * @param {Object} element
-         * @param {String} attribute
-         * @param {Function} callback
-         */
-        handleElement: function(element, attribute, callback) {
-            var i, len;
-            var componentList = element.getAttribute(attribute).split(",");
-
-            for (i = 0, len = componentList.length; i < len; i++) {
-                callback.apply(this, [element, componentList[i]]);
-            }
-        },
-
-
-        /**
          * New component
          * @param  {Object} element
          * @param  {Function|Object} definition
