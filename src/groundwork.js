@@ -38,7 +38,7 @@ define("groundwork", ["groundwork/core"], function(core) {
          * @return {Object}
          */
         startup: function() {
-            var i, len, element, componentList;
+            var i, t, len, len_t, element, componentList;
 
             // Set default options if .config() has not been called
             if (!this.options) {
