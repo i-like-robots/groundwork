@@ -8,7 +8,18 @@ Using Groundwork.JS you can avoid common performance and maintainability pitfall
 
 1. Loading and attempting to instantiate all components at once
 
+    ```html
+    <!-- webpage.html -->
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/plugins/tabs.js"></script>
+    <script src="js/plugins/slider.js"></script>
+    <script src="js/plugins/modalWindow.js"></script>
+    <script src="js/plugins/expandableText.js"></script>
+    <script src="js/bootstrap.js"></script>
+    ```
+
     ```javascript
+    // js/bootstrap.js
     $(function() {
         $('.tabs').tabsPlugin();
         $('.slider').sliderPlugin();
@@ -17,10 +28,10 @@ Using Groundwork.JS you can avoid common performance and maintainability pitfall
     });
     ```
 
-1. Rigidly defining views and dependencies
+1. Manually defining views and dependencies
 
     ```javascript
-    // modules/BlogModule.js
+    // js/modules/BlogModule.js
     module("blog", ["router"], function(router) {
         router.when("/", {
             controller: "BlogArchiveController"
@@ -30,13 +41,13 @@ Using Groundwork.JS you can avoid common performance and maintainability pitfall
         });
     });
 
-    // controllers/BlogArchiveController.js
-    controller("BlogPostController", ["expandableTextPlugin"], function($scope) {
+    // js/controllers/BlogArchiveController.js
+    controller("BlogPostController", ["expandableText"], function($scope) {
         $scope.find(".expander").expandableTextPlugin();
     });
 
-    // controllers/BlogPostController.js
-    controller("BlogPostController", ["sliderPlugin", "modalWindowPlugin"], function($scope) {
+    // js/controllers/BlogPostController.js
+    controller("BlogPostController", ["slider", "modalWindow"], function($scope) {
         $scope.find(".slider").sliderPlugin();
         $scope.find('a[rel=modal]').modalWindowPlugin();
     });
@@ -48,7 +59,7 @@ Groundwork.JS is just the glue between your document and JavaScript components, 
 
 ```html
 <!-- webpage.html -->
-<div class="slider" data-gw-component="slider-widget">
+<div data-gw-component="slider">
     <ul>
         <li>…</li>
         <li>…</li>
@@ -58,7 +69,7 @@ Groundwork.JS is just the glue between your document and JavaScript components, 
 ```
 
 ```javascript
-// components/slider-widget.js
+// js/components/slider.js
 define(function() {
 
     return {
@@ -71,7 +82,7 @@ define(function() {
 });
 ```
 
-Groundwork.JS takes advantage of the [AMD format](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#detailamd) which is well suited to in-browser development and as an aid to creating scalable code.
+Groundwork.JS uses the [AMD format](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#detailamd) which is well suited to in-browser development and as an aid to creating scalable code.
 
 ## Requirements
 
@@ -101,7 +112,13 @@ A JavaScript module loader such as [RequireJS](http://www.requirejs.org/) or [cu
     ```
 2. Bootstrap the application
 
+    ```html
+    <!-- webpage.html -->
+    <script src="js/vendor/require.js" data-main="js/bootstrap"></script>
+    ```
+
     ```javascript
+    // js/bootstrap.js
     require(["groundwork"], function(groundwork) {
         groundwork.startup();
     });
@@ -109,9 +126,10 @@ A JavaScript module loader such as [RequireJS](http://www.requirejs.org/) or [cu
 
 ## Support
 
-Groundwork.JS is designed to be resilient and will work in any browser with support for [`querySelector`](http://caniuse.com/#feat=queryselector) and [`Object.create`](http://kangax.github.io/es5-compat-table/#Object.create). IE is therefore supported down to version 8 providing an [`Object.create`](http://javascript.crockford.com/prototypal.html) shim is provided.
+Groundwork.JS is designed to be resilient and will work in any browser with support for [`querySelector`](http://caniuse.com/#feat=queryselector) and [`Object.create`](http://kangax.github.io/es5-compat-table/#Object.create). IE is therefore supported down to version 8 providing [an appropriate shim](http://javascript.crockford.com/prototypal.html) for the latter is provided.
 
 ```javascript
+// js/bootstrap.js
 require(["groundwork"], function(groundwork) {
 
     // Cut the mustard
