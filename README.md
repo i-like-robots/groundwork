@@ -6,7 +6,7 @@ A simple drop-in bootstrap for loading and binding AMD components to your docume
 
 Using Groundwork.JS you can avoid common performance and maintainability pitfalls:
 
-1. Loading and attempting to instantiate all components at once
+1. No more loading and attempting to instantiate all site components at once:
 
     ```html
     <!-- webpage.html -->
@@ -28,7 +28,7 @@ Using Groundwork.JS you can avoid common performance and maintainability pitfall
     });
     ```
 
-1. Manually defining views and dependencies
+1. No need to manually define views and dependencies:
 
     ```javascript
     // js/modules/BlogModule.js
@@ -42,14 +42,14 @@ Using Groundwork.JS you can avoid common performance and maintainability pitfall
     });
 
     // js/controllers/BlogArchiveController.js
-    controller("BlogPostController", ["expandableText"], function($scope) {
-        $scope.find(".expander").expandableTextPlugin();
+    controller("BlogPostController", ["plugins/expandableText"], function() {
+        $(".expander").expandableTextPlugin();
     });
 
     // js/controllers/BlogPostController.js
-    controller("BlogPostController", ["slider", "modalWindow"], function($scope) {
-        $scope.find(".slider").sliderPlugin();
-        $scope.find('a[rel=modal]').modalWindowPlugin();
+    controller("BlogPostController", ["plugins/slider", "plugins/modalWindow"], function() {
+        $(".slider").sliderPlugin();
+        $('a[rel=modal]').modalWindowPlugin();
     });
     ```
 
