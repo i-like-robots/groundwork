@@ -2,60 +2,7 @@
 
 A simple drop-in bootstrap for loading and binding AMD components to your document.
 
-## What's the problem?
-
-Using Groundwork.JS you can avoid common performance and maintainability pitfalls:
-
-1. No more loading and attempting to instantiate all site components at once:
-
-    ```html
-    <!-- webpage.html -->
-    <script src="js/vendor/jquery.js"></script>
-    <script src="js/plugins/tabs.js"></script>
-    <script src="js/plugins/slider.js"></script>
-    <script src="js/plugins/modalWindow.js"></script>
-    <script src="js/plugins/expandableText.js"></script>
-    <script src="js/bootstrap.js"></script>
-    ```
-
-    ```javascript
-    // js/bootstrap.js
-    $(function() {
-        $('.tabs').tabsPlugin();
-        $('.slider').sliderPlugin();
-        $('a[rel=modal]').modalWindowPlugin();
-        $('.expander').expandableTextPlugin();
-    });
-    ```
-
-1. No need to manually define views and dependencies:
-
-    ```javascript
-    // js/modules/BlogModule.js
-    module("blog", ["router"], function(router) {
-        router.when("/", {
-            controller: "BlogArchiveController"
-        });
-        router.when("/view/:post", {
-            controller: "BlogPostController"
-        });
-    });
-
-    // js/controllers/BlogArchiveController.js
-    controller("BlogPostController", ["plugins/expandableText"], function() {
-        $(".expander").expandableTextPlugin();
-    });
-
-    // js/controllers/BlogPostController.js
-    controller("BlogPostController", ["plugins/slider", "plugins/modalWindow"], function() {
-        $(".slider").sliderPlugin();
-        $('a[rel=modal]').modalWindowPlugin();
-    });
-    ```
-
-## What's the solution?
-
-Groundwork.JS is just the glue between your document and JavaScript components, an attribute defines the modules to be loaded and instantiated on demand and is ideal for environments where pages and content can be created or changed without consulting a developer:
+Groundwork.JS is like the glue between your document and JavaScript, an attribute defines the modules to be loaded and instantiated on demand and is ideal for environments where pages and content can be created or changed without consulting a developer:
 
 ```html
 <!-- webpage.html -->
@@ -82,7 +29,7 @@ define(function() {
 });
 ```
 
-Groundwork.JS uses the [AMD format](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#detailamd) which is well suited to in-browser development and as an aid to creating scalable code.
+Groundwork.JS utilises the [AMD format](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#detailamd) which is well suited to in-browser development and as an aid to creating scalable code.
 
 ## Requirements
 
