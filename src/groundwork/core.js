@@ -106,7 +106,7 @@ define("groundwork/core", function() {
                 store[componentName].teardown();
             }
 
-            store[componentName] = undefined;
+            delete store[componentName];
         }
 
     };
