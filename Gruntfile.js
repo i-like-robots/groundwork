@@ -38,6 +38,16 @@ module.exports = function(grunt) {
         },
 
         uglify: {
+            options: {
+                banner: [
+                    '/*!',
+                    ' * @name      <%= pkg.name %>',
+                    ' * @author    <%= pkg.author.name %> <<%= pkg.author.url %>>',
+                    ' * @modified  <%= grunt.template.today("dddd, mmmm dS, yyyy") %>',
+                    ' * @version   <%= pkg.version %>',
+                    ' */'
+                ].join('\n')
+            },
             dist: {
                 files: [
                     {

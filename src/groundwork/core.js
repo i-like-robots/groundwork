@@ -102,7 +102,7 @@ define("groundwork/core", function() {
         unloadComponent: function(element, componentName) {
             var store = this.getElementStorage(element);
 
-            if (store[componentName] && store[componentName].hasOwnProperty("teardown")) {
+            if (store[componentName] && store[componentName].teardown && store[componentName].teardown.call) {
                 store[componentName].teardown();
             }
 

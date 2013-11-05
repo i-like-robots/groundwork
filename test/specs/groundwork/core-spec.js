@@ -143,16 +143,25 @@ define(["groundwork/core"], function(core) {
 
             var fixture = document.createElement("div");
             var storage = core.getElementStorage(fixture);
-            var spy = jasmine.createSpy("spy");
+            var spy_1 = jasmine.createSpy("spy");
+            var spy_2 = jasmine.createSpy("spy");
+
+            var Mock = function() {};
+            Mock.prototype.teardown = spy_1;
 
             storage["foo"] = {
-                teardown: spy
+                teardown: spy_2
             };
 
-            core.unloadComponent(fixture, "foo");
+            storage["bar"] = new Mock();
 
-            expect(spy).toHaveBeenCalled();
+            core.unloadComponent(fixture, "foo");
+            core.unloadComponent(fixture, "bar");
+
+            expect(spy_1).toHaveBeenCalled();
+            expect(spy_2).toHaveBeenCalled();
             expect(storage.foo).not.toBeDefined();
+            expect(storage.bar).not.toBeDefined();
 
         });
 
