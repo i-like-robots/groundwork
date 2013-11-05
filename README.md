@@ -1,12 +1,10 @@
-# [Groundwork.JS](https://github.com/i-like-robots/groundwork)
+# Groundwork.JS
 
-A simple drop-in bootstrap for loading and binding AMD components to your document.
-
-Groundwork.JS is like the glue between your document and JavaScript, an attribute defines the modules to be loaded and instantiated on demand and is ideal for environments where pages and content can be created or changed without consulting a developer:
+a simple bootstrap for loading and binding DOM elements to JavaScript modules in an easily understandable way. A simple glue between the HTML and scripts that act upon it. For more information check out [Introducing Groundwork.JS](http://maketea.co.uk/2013/11/05/introducing-groundwork-js.html).
 
 ```html
 <!-- webpage.html -->
-<div data-gw-component="slider">
+<div data-gw-component="widget/slider">
     <ul>
         <li>…</li>
         <li>…</li>
@@ -16,11 +14,11 @@ Groundwork.JS is like the glue between your document and JavaScript, an attribut
 ```
 
 ```javascript
-// js/components/slider.js
+// js/component/widget/slider.js
 define(function() {
 
     return {
-        init: function() { … },
+        init: function(element) { … },
         next: function() { … },
         prev: function() { … },
         teardown: function() { … }
@@ -29,7 +27,7 @@ define(function() {
 });
 ```
 
-Groundwork.JS utilises the [AMD format](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#detailamd) which is well suited to in-browser development and as an aid to creating scalable code.
+Groundwork.JS utilises the [AMD compatible modules](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#detailamd) which are well suited to in-browser development and as an aid to creating scalable code.
 
 ## Requirements
 
@@ -37,23 +35,23 @@ A JavaScript module loader such as [RequireJS](http://www.requirejs.org/) or [cu
 
 ## Setup
 
-1. Configure your module loader paths to include a `component` path
+1. Configure the module loader to include a `component` path
 
     ```javascript
     // RequireJS
     require.config({
-        baseUrl: "/assets/dist",
+        baseUrl: "/assets",
         paths: {
-            component: "js/components"
+            component: "js/component"
         }
     });
 
     // curl.js
     curl.config({
         apiName: "require",
-        baseUrl: "/assets/dist",
+        baseUrl: "/assets",
         paths: {
-            component: "js/components"
+            component: "js/component"
         }
     });
     ```
@@ -61,7 +59,7 @@ A JavaScript module loader such as [RequireJS](http://www.requirejs.org/) or [cu
 
     ```html
     <!-- webpage.html -->
-    <script src="js/vendor/require.js" data-main="js/bootstrap"></script>
+    <script src="vendor/require.js" data-main="js/bootstrap"></script>
     ```
 
     ```javascript
@@ -71,7 +69,7 @@ A JavaScript module loader such as [RequireJS](http://www.requirejs.org/) or [cu
     });
     ```
 
-## Support
+## Browser support
 
 Groundwork.JS is designed to be resilient and will work in any browser with support for [`querySelector`](http://caniuse.com/#feat=queryselector) and [`Object.create`](http://kangax.github.io/es5-compat-table/#Object.create). IE is therefore supported down to version 8 providing [an appropriate shim](http://javascript.crockford.com/prototypal.html) for the latter is provided.
 
