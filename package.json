@@ -1,5 +1,5 @@
 {
-  "name": "Groundwork",
+  "name": "GroundworkJS",
   "description": "A simple drop-in bootstrap for loading and binding AMD components to your document.",
   "main": "dist/groundwork.js",
   "author": {
