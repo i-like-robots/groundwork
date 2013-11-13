@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>GroundworkJS by i-like-robots</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>GroundworkJS</h1>
+        <h2>A simple bootstrap for loading and binding DOM elements to JavaScript modules in an understandable way.</h2>
+        <a href="https://github.com/i-like-robots/groundwork" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="groundworkjs" class="anchor" href="#groundworkjs"><span class="octicon octicon-link"></span></a>GroundworkJS</h1>
+
+<p>A simple bootstrap for loading and binding DOM elements to JavaScript modules in an understandable way. A simple glue between the HTML and scripts that act upon it. For more information check out <a href="http://maketea.co.uk/2013/11/05/introducing-groundwork-js.html">Introducing GroundworkJS</a>.</p>
+
+<div class="highlight highlight-html"><pre><span class="c">&lt;!-- webpage.html --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-gw-component=</span><span class="s">"widget/slider"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;ul&gt;</span>
+        <span class="nt">&lt;li&gt;</span>…<span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;</span>…<span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;</span>…<span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+
+<div class="highlight highlight-javascript"><pre><span class="c1">// js/component/widget/slider.js</span>
+<span class="nx">define</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span> <span class="err">…</span> <span class="p">},</span>
+        <span class="nx">next</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="err">…</span> <span class="p">},</span>
+        <span class="nx">prev</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="err">…</span> <span class="p">},</span>
+        <span class="nx">teardown</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="err">…</span> <span class="p">}</span>
+    <span class="p">};</span>
+
+<span class="p">});</span>
+</pre></div>
+
+<p>GroundworkJS utilises <a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/#detailamd">AMD compatible modules</a> which are well suited to in-browser development and as an aid to creating scalable code.</p>
+
+<h2>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<p>A JavaScript module loader such as <a href="http://www.requirejs.org/">RequireJS</a> or <a href="https://github.com/cujojs/curl">curl.js</a>.</p>
+
+<h2>
+<a name="setup" class="anchor" href="#setup"><span class="octicon octicon-link"></span></a>Setup</h2>
+
+<ol>
+<li>
+<p>Configure the module loader to include a <code>component</code> path</p>
+
+<div class="highlight highlight-javascript"><pre><span class="c1">// RequireJS</span>
+<span class="nx">require</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+    <span class="nx">baseUrl</span><span class="o">:</span> <span class="s2">"/assets"</span><span class="p">,</span>
+    <span class="nx">paths</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">component</span><span class="o">:</span> <span class="s2">"js/component"</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="c1">// curl.js</span>
+<span class="nx">curl</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+    <span class="nx">apiName</span><span class="o">:</span> <span class="s2">"require"</span><span class="p">,</span>
+    <span class="nx">baseUrl</span><span class="o">:</span> <span class="s2">"/assets"</span><span class="p">,</span>
+    <span class="nx">paths</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">component</span><span class="o">:</span> <span class="s2">"js/component"</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</li>
+<li>
+<p>Bootstrap the application</p>
+
+<div class="highlight highlight-html"><pre><span class="c">&lt;!-- webpage.html --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"vendor/require.js"</span> <span class="na">data-main=</span><span class="s">"js/bootstrap"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+<div class="highlight highlight-javascript"><pre><span class="c1">// js/bootstrap.js</span>
+<span class="nx">require</span><span class="p">([</span><span class="s2">"groundwork"</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">groundwork</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">groundwork</span><span class="p">.</span><span class="nx">startup</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+</li>
+</ol><h2>
+<a name="browser-support" class="anchor" href="#browser-support"><span class="octicon octicon-link"></span></a>Browser support</h2>
+
+<p>GroundworkJS is designed to be resilient and will work in any browser with support for <a href="http://caniuse.com/#feat=queryselector"><code>querySelector</code></a> and <a href="http://kangax.github.io/es5-compat-table/#Object.create"><code>Object.create</code></a>. IE is therefore supported down to version 8 providing <a href="http://javascript.crockford.com/prototypal.html">an appropriate shim</a> for the latter is provided.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="c1">// js/bootstrap.js</span>
+<span class="nx">require</span><span class="p">([</span><span class="s2">"groundwork"</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">groundwork</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// Cut the mustard</span>
+    <span class="c1">// &lt;http://responsivenews.co.uk/post/18948466399/cutting-the-mustard&gt;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nb">window</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Object.create() shim</span>
+    <span class="c1">// &lt;http://javascript.crockford.com/prototypal.html&gt;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span> <span class="o">!==</span> <span class="s2">"function"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">function</span> <span class="nx">F</span><span class="p">()</span> <span class="p">{}</span>
+            <span class="nx">F</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nx">o</span><span class="p">;</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nx">F</span><span class="p">();</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+
+    <span class="nx">groundwork</span><span class="p">.</span><span class="nx">startup</span><span class="p">();</span>
+
+<span class="p">});</span>
+</pre></div>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/i-like-robots/groundwork/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/i-like-robots/groundwork/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/i-like-robots/groundwork"></a> is maintained by <a href="https://github.com/i-like-robots">i-like-robots</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
