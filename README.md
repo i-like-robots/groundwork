@@ -58,8 +58,11 @@ A JavaScript module loader such as [RequireJS](http://www.requirejs.org/) or [cu
 2. Bootstrap the application
 
     ```html
-    <!-- webpage.html -->
+    <!-- RequireJS -->
     <script src="vendor/require.js" data-main="js/bootstrap"></script>
+    
+    <!-- curl.js -->
+    <script src="vendor/curl.js" data-curl-run="js/bootstrap.js"></script>
     ```
 
     ```javascript
