@@ -39,7 +39,7 @@ define(["groundwork", "groundwork/core"], function(groundwork, core) {
             spyOn(core, "newComponent").andCallThrough();
 
             runs(function() {
-                groundwork.config({ scope: fixture }).startup();
+                groundwork.startup(fixture);
             });
 
             waitsFor(function() {
@@ -68,8 +68,9 @@ define(["groundwork", "groundwork/core"], function(groundwork, core) {
 
         it("Should iterate through elements and teardown all components", function() {
 
-            var fixture_1 = document.createElement("div");
-            var fixture_2 = document.createElement("div");
+            var fixture = document.getElementById("shutdown");
+            var fixture_1 = fixture.children[0];
+            var fixture_2 = fixture.children[1];
             var storage_1 = core.getElementStorage(fixture_1);
             var storage_2 = core.getElementStorage(fixture_2);
             var spy_1 = jasmine.createSpy("spy");
@@ -87,9 +88,7 @@ define(["groundwork", "groundwork/core"], function(groundwork, core) {
 
             storage_2["bar"] = {};
 
-            groundwork.elements = [fixture_1, fixture_2];
-
-            groundwork.shutdown();
+            groundwork.shutdown(fixture);
 
             expect(spy_1).toHaveBeenCalled();
             expect(spy_2).toHaveBeenCalled();

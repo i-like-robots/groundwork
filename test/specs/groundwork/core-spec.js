@@ -25,20 +25,6 @@ define(["groundwork/core"], function(core) {
     });
 
 
-    describe("Get elements", function() {
-
-        it ("Should find DOM elements within a given scope", function() {
-
-            var scope = document.getElementById("core-get-elements");
-            var result = core.getElements(scope, "div");
-
-            expect(result.length).toEqual(2);
-
-        });
-
-    });
-
-
     describe("Get element storage", function() {
 
         var fixture = document.createElement("div");

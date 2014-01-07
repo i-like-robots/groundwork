@@ -24,16 +24,6 @@ define("groundwork/core", function() {
             });
         },
 
-        /**
-         * Get Elements
-         * @param  {Object} scope
-         * @param  {String} selector
-         * @return {NodeList}
-         */
-        getElements: function(scope, selector) {
-            return scope.querySelectorAll(selector);
-        },
-
 
         /**
          * Get element storage

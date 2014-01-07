@@ -35,24 +35,24 @@ define("groundwork", ["groundwork/core"], function(core) {
 
         /**
          * Startup
+         * @param  {Object} scope
          * @return {Object}
          */
-        startup: function() {
-            var i, t, len, len_t, element, componentList;
+        startup: function(scope) {
+            var i, t, len, len_t, elements, componentList;
 
             // Set default options if .config() has not been called
             if (!this.options) {
                 this.options = Object.create(defaults);
             }
 
-            this.elements = core.getElements(this.options.scope, "[" + this.options.attribute + "]");
+            elements = (scope || this.options.scope).querySelectorAll("[" + this.options.attribute + "]");
 
-            for (i = 0, len = this.elements.length; i < len; i++) {
-                element = this.elements[i];
-                componentList = element.getAttribute(this.options.attribute).split(",");
+            for (i = 0, len = elements.length; i < len; i++) {
+                componentList = elements[i].getAttribute(this.options.attribute).split(",");
 
                 for (t = 0, len_t = componentList.length; t < len_t; t++) {
-                    core.loadComponent(element, componentList[t]);
+                    core.loadComponent(elements[i], componentList[t]);
                 }
             }
 
@@ -62,18 +62,20 @@ define("groundwork", ["groundwork/core"], function(core) {
 
         /**
          * Shutdown
+         * @param  {Object} scope
          * @return {Object}
          */
-        shutdown: function() {
-            var i, len, element, activeComponents, componentName;
+        shutdown: function(scope) {
+            var i, len, elements, activeComponents, componentName;
 
-            for (i = 0, len = this.elements.length; i < len; i++) {
-                element = this.elements[i];
-                activeComponents = core.getElementStorage(element);
+            elements = (scope || this.options.scope).querySelectorAll("[" + this.options.attribute + "]");
+
+            for (i = 0, len = elements.length; i < len; i++) {
+                activeComponents = core.getElementStorage(elements[i]);
 
                 for (componentName in activeComponents) {
                     if (activeComponents.hasOwnProperty(componentName)) {
-                        core.unloadComponent(element, componentName);
+                        core.unloadComponent(elements[i], componentName);
                     }
                 }
             }

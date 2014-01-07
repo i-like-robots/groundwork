@@ -26,19 +26,15 @@
 </head>
 <body>
 
-	<!-- Groundwork -->
 	<div id="startup">
 		<div data-gw-component="foo"></div>
 		<div data-gw-component="bar"></div>
 	</div>
 
-	<!-- Groundwork/Core -->
-	<div id="core-get-elements">
-		<div></div>
-		<div></div>
+	<div id="shutdown">
+		<div data-gw-component></div>
+		<div data-gw-component></div>
 	</div>
-
-	<!-- Groundwork/Sandbox -->
 
 	<script>
 		require(["<%= scripts.specs.join('","') %>"], function() {
