@@ -73,6 +73,10 @@ define("groundwork", ["groundwork/core"], function(core) {
             for (i = 0, len = elements.length; i < len; i++) {
                 activeComponents = core.getElementStorage(elements[i]);
 
+                if (! activeComponents) {
+                    continue;
+                }
+
                 for (componentName in activeComponents) {
                     if (activeComponents.hasOwnProperty(componentName)) {
                         core.unloadComponent(elements[i], componentName);
