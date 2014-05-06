@@ -1,11 +1,12 @@
 define("groundwork/core", function() {
 
+    "use strict";
+
     /**
      * Component instances
      * @type {Object}
      */
     var storage = {};
-
 
     /**
      * Public interface
@@ -21,16 +22,10 @@ define("groundwork/core", function() {
          * @return {String}
          */
         GUID: function() {
-            return 'xxxx-xxxx-xxxx'.replace(/[x]/g, function(i) {
+            return "xxxx-xxxx-xxxx".replace(/[x]/g, function(i) {
                 return Math.ceil(Math.random() * 10).toString();
             });
         },
-
-
-        getStorage: function() {
-            return Object.create(storage);
-        },
-
 
         /**
          * Get element storage
@@ -53,21 +48,20 @@ define("groundwork/core", function() {
             return storage[ID].components;
         },
 
-
         /**
          * New component
          * @param  {Object} element
-         * @param  {Function|Object} definition
+         * @param  {Function|Object} Definition
          * @return {Function|Object}
          */
-        newComponent: function(element, definition) {
+        newComponent: function(element, Definition) {
             var instance;
 
-            if (definition.call) {
-                instance = new definition(element);
+            if (Definition.call) {
+                instance = new Definition(element);
             }
             else {
-                instance = Object.create(definition);
+                instance = Object.create(Definition);
 
                 if (instance.hasOwnProperty("init")) {
                     instance.init(element);
@@ -76,7 +70,6 @@ define("groundwork/core", function() {
 
             return instance;
         },
-
 
         /**
          * Load component
@@ -94,7 +87,6 @@ define("groundwork/core", function() {
             }
         },
 
-
         /**
          * Load element
          * @param  {Object} element
@@ -107,7 +99,6 @@ define("groundwork/core", function() {
                 this.loadComponent(element, componentList[i]);
             }
         },
-
 
         /**
          * Unload component
@@ -123,7 +114,6 @@ define("groundwork/core", function() {
 
             delete store[componentName];
         },
-
 
         /**
          * Unload element
@@ -141,29 +131,24 @@ define("groundwork/core", function() {
             }
         },
 
-
         /**
          * Prune
          * @param {Array|NodeList} elements
          */
         prune: function(elements) {
-            var elementID, found;
+            var i, len, elementID, found;
 
             for (elementID in storage) {
 
                 // Presume no Array.prototype.indexOf
-                found = (function() {
-                    var i, len, index;
+                found = false;
 
-                    for (i = 0, len = elements.length; i < len; i++) {
-                        if (elements[i].getAttribute("data-gw-id") === elementID) {
-                            index = true;
-                            break;
-                        }
+                for (i = 0, len = elements.length; i < len; i++) {
+                    if (elements[i].getAttribute("data-gw-id") === elementID) {
+                        found = true;
+                        break;
                     }
-
-                    return index;
-                })();
+                }
 
                 if (!found) {
                     this.unloadElement(storage[elementID].element);
@@ -172,7 +157,6 @@ define("groundwork/core", function() {
         }
 
     };
-
 
     return exports;
 

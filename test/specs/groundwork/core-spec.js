@@ -24,7 +24,6 @@ define(["groundwork/core"], function(core) {
 
     });
 
-
     describe("Get element storage", function() {
 
         var fixture = document.createElement("div");
@@ -58,7 +57,6 @@ define(["groundwork/core"], function(core) {
 
     });
 
-
     describe("Create new component instance", function() {
 
         var fixture = document.createElement("div");
@@ -88,7 +86,6 @@ define(["groundwork/core"], function(core) {
         });
 
     });
-
 
     describe("Load component", function() {
 
@@ -122,7 +119,6 @@ define(["groundwork/core"], function(core) {
         });
 
     });
-
 
     describe("Unload component", function() {
 

@@ -27,7 +27,6 @@ define(["groundwork", "groundwork/core"], function(groundwork, core) {
 
     });
 
-
     describe("Startup", function() {
 
         it("Should find elements, load modules and instantiate specified components", function() {
@@ -62,7 +61,6 @@ define(["groundwork", "groundwork/core"], function(groundwork, core) {
         });
 
     });
-
 
     describe("Shutdown", function() {
 
@@ -100,7 +98,6 @@ define(["groundwork", "groundwork/core"], function(groundwork, core) {
         });
 
     });
-
 
     describe("Get component", function() {
 

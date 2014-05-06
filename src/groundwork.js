@@ -1,5 +1,6 @@
 define("groundwork", ["groundwork/core"], function(core) {
 
+    "use strict";
 
     /**
      * Default options
@@ -10,13 +11,11 @@ define("groundwork", ["groundwork/core"], function(core) {
         attribute: "data-gw-component"
     };
 
-
     /**
      * Public interface
      * @type {Object}
      */
     var exports = {
-
 
         /**
          * Set configuration options
@@ -31,7 +30,6 @@ define("groundwork", ["groundwork/core"], function(core) {
 
             return this;
         },
-
 
         /**
          * Startup
@@ -56,7 +54,6 @@ define("groundwork", ["groundwork/core"], function(core) {
             return this;
         },
 
-
         /**
          * Shutdown
          * @param  {Object} scope
@@ -74,7 +71,6 @@ define("groundwork", ["groundwork/core"], function(core) {
             return this;
         },
 
-
         /**
          * Reload
          * @return {Object}
@@ -89,7 +85,6 @@ define("groundwork", ["groundwork/core"], function(core) {
             return this.startup();
         },
 
-
         /**
          * Reload
          * @param  {Object} scope
@@ -98,7 +93,6 @@ define("groundwork", ["groundwork/core"], function(core) {
         getElements: function(scope) {
             return (scope || this.options.scope).querySelectorAll("[" + this.options.attribute + "]");
         },
-
 
         /**
          * Get component
@@ -111,7 +105,6 @@ define("groundwork", ["groundwork/core"], function(core) {
         }
 
     };
-
 
     return exports;
 
