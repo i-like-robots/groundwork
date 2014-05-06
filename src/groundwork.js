@@ -77,6 +77,21 @@ define("groundwork", ["groundwork/core"], function(core) {
 
         /**
          * Reload
+         * @return {Object}
+         */
+        reload: function() {
+            var i, len, elements;
+
+            elements = this.getElements();
+
+            core.prune(elements);
+
+            return this.startup();
+        },
+
+
+        /**
+         * Reload
          * @param  {Object} scope
          * @return {Array}
          */

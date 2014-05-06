@@ -27,6 +27,11 @@ define("groundwork/core", function() {
         },
 
 
+        getStorage: function() {
+            return Object.create(storage);
+        },
+
+
         /**
          * Get element storage
          * @param  {Object} element
@@ -132,6 +137,36 @@ define("groundwork/core", function() {
             for (componentName in store) {
                 if (store.hasOwnProperty(componentName)) {
                     this.unloadComponent(element, componentName);
+                }
+            }
+        },
+
+
+        /**
+         * Prune
+         * @param {Array|NodeList} elements
+         */
+        prune: function(elements) {
+            var elementID, found;
+
+            for (elementID in storage) {
+
+                // Presume no Array.prototype.indexOf
+                found = (function() {
+                    var i, len, index;
+
+                    for (i = 0, len = elements.length; i < len; i++) {
+                        if (elements[i].getAttribute("data-gw-id") === elementID) {
+                            index = true;
+                            break;
+                        }
+                    }
+
+                    return index;
+                })();
+
+                if (!found) {
+                    this.unloadElement(storage[elementID].element);
                 }
             }
         }
