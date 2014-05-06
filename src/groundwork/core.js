@@ -13,6 +13,8 @@ define("groundwork/core", function() {
      */
     var exports = {
 
+        storage: {},
+
         /**
          * GUID
          * Creates a pseudo-unique ID.
@@ -35,11 +37,15 @@ define("groundwork/core", function() {
 
             if (!ID) {
                 ID = this.GUID();
-                storage[ID] = {};
+                storage[ID] = {
+                    element: element,
+                    components: {}
+                };
+
                 element.setAttribute("data-gw-id", ID);
             }
 
-            return storage[ID];
+            return storage[ID].components;
         },
 
 
@@ -85,6 +91,20 @@ define("groundwork/core", function() {
 
 
         /**
+         * Load element
+         * @param  {Object} element
+         * @param  {Array} componentList
+         */
+        loadElement: function(element, componentList) {
+            var i, len;
+
+            for (i = 0, len = componentList.length; i < len; i++) {
+                this.loadComponent(element, componentList[i]);
+            }
+        },
+
+
+        /**
          * Unload component
          * @param  {Object} element
          * @param  {String} componentName
@@ -97,6 +117,23 @@ define("groundwork/core", function() {
             }
 
             delete store[componentName];
+        },
+
+
+        /**
+         * Unload element
+         * @param  {Object} element
+         */
+        unloadElement: function(element) {
+            var store, componentName;
+
+            store = this.getElementStorage(element);
+
+            for (componentName in store) {
+                if (store.hasOwnProperty(componentName)) {
+                    this.unloadComponent(element, componentName);
+                }
+            }
         }
 
     };

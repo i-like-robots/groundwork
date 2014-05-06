@@ -41,7 +41,7 @@ define(["groundwork/core"], function(core) {
         it("Should assign an ID to the given element when no related storage is found", function() {
 
             var result = fixture.getAttribute("data-gw-id");
-            expect(result).toBeTruthy();
+            expect(result).toBeDefined();
 
         });
 
@@ -49,6 +49,7 @@ define(["groundwork/core"], function(core) {
 
             var storage = core.getElementStorage(fixture);
             storage.foo = "bar";
+
             var result = core.getElementStorage(fixture);
 
             expect(result.hasOwnProperty("foo")).toEqual(true);
@@ -129,17 +130,17 @@ define(["groundwork/core"], function(core) {
 
             var fixture = document.createElement("div");
             var storage = core.getElementStorage(fixture);
-            var spy_1 = jasmine.createSpy("spy");
-            var spy_2 = jasmine.createSpy("spy");
+            var spy_1 = jasmine.createSpy("component constructor");
+            var spy_2 = jasmine.createSpy("component object");
 
             var Mock = function() {};
             Mock.prototype.teardown = spy_1;
 
-            storage["foo"] = {
+            storage.foo = {
                 teardown: spy_2
             };
 
-            storage["bar"] = new Mock();
+            storage.bar = new Mock();
 
             core.unloadComponent(fixture, "foo");
             core.unloadComponent(fixture, "bar");

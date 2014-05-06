@@ -76,17 +76,17 @@ define(["groundwork", "groundwork/core"], function(groundwork, core) {
             var spy_1 = jasmine.createSpy("spy");
             var spy_2 = jasmine.createSpy("spy");
 
-            storage_1["foo"] = {
+            storage_1.foo = {
                 teardown: spy_1
             };
 
-            storage_1["bar"] = {};
+            storage_1.bar = {};
 
-            storage_2["foo"] = {
+            storage_2.foo = {
                 teardown: spy_2
             };
 
-            storage_2["bar"] = {};
+            storage_2.bar = {};
 
             groundwork.shutdown(fixture);
 
@@ -109,7 +109,7 @@ define(["groundwork", "groundwork/core"], function(groundwork, core) {
             var fixture = document.createElement("div");
             var storage = core.getElementStorage(fixture);
 
-            storage["foo"] = "bar";
+            storage.foo = "bar";
 
             var result = groundwork.getComponent(fixture, "foo");
 

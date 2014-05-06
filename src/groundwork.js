@@ -39,21 +39,18 @@ define("groundwork", ["groundwork/core"], function(core) {
          * @return {Object}
          */
         startup: function(scope) {
-            var i, t, len, len_t, elements, componentList;
+            var i, len, elements, componentList;
 
             // Set default options if .config() has not been called
             if (!this.options) {
                 this.options = Object.create(defaults);
             }
 
-            elements = (scope || this.options.scope).querySelectorAll("[" + this.options.attribute + "]");
+            elements = this.getElements(scope);
 
             for (i = 0, len = elements.length; i < len; i++) {
                 componentList = elements[i].getAttribute(this.options.attribute).split(",");
-
-                for (t = 0, len_t = componentList.length; t < len_t; t++) {
-                    core.loadComponent(elements[i], componentList[t]);
-                }
+                core.loadElement(elements[i], componentList);
             }
 
             return this;
@@ -66,25 +63,25 @@ define("groundwork", ["groundwork/core"], function(core) {
          * @return {Object}
          */
         shutdown: function(scope) {
-            var i, len, elements, activeComponents, componentName;
+            var i, len, elements;
 
-            elements = (scope || this.options.scope).querySelectorAll("[" + this.options.attribute + "]");
+            elements = this.getElements(scope);
 
             for (i = 0, len = elements.length; i < len; i++) {
-                activeComponents = core.getElementStorage(elements[i]);
-
-                if (! activeComponents) {
-                    continue;
-                }
-
-                for (componentName in activeComponents) {
-                    if (activeComponents.hasOwnProperty(componentName)) {
-                        core.unloadComponent(elements[i], componentName);
-                    }
-                }
+                core.unloadElement(elements[i]);
             }
 
             return this;
+        },
+
+
+        /**
+         * Reload
+         * @param  {Object} scope
+         * @return {Array}
+         */
+        getElements: function(scope) {
+            return (scope || this.options.scope).querySelectorAll("[" + this.options.attribute + "]");
         },
 
 
