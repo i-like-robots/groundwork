@@ -50,8 +50,8 @@ define(["groundwork", "groundwork/core"], function(groundwork, core) {
                 expect(fixture.children[0].getAttribute("data-gw-id")).toBeDefined();
                 expect(fixture.children[1].getAttribute("data-gw-id")).toBeDefined();
 
-                var result_1 = groundwork.getComponent(fixture.children[0], "foo");
-                var result_2 = groundwork.getComponent(fixture.children[1], "bar");
+                var result_1 = groundwork.getComponentInstance(fixture.children[0], "foo");
+                var result_2 = groundwork.getComponentInstance(fixture.children[1], "bar");
 
                 expect(result_1).toBeDefined();
                 expect(result_2).toBeDefined();
@@ -99,7 +99,7 @@ define(["groundwork", "groundwork/core"], function(groundwork, core) {
 
     });
 
-    describe("Get component", function() {
+    describe("Get component instance", function() {
 
         it("Should return the component instance for the given element and component name", function() {
 
@@ -108,7 +108,7 @@ define(["groundwork", "groundwork/core"], function(groundwork, core) {
 
             storage.foo = "bar";
 
-            var result = groundwork.getComponent(fixture, "foo");
+            var result = groundwork.getComponentInstance(fixture, "foo");
 
             expect(result).toEqual("bar");
 

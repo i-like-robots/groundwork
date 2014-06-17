@@ -133,9 +133,8 @@ define("groundwork/core", function() {
 
         /**
          * Prune
-         * @param {Array|NodeList} elements
          */
-        prune: function(elements) {
+        prune: function() {
             var element, elementID;
 
             for (elementID in storage) {

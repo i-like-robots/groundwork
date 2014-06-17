@@ -44,7 +44,7 @@ define("groundwork", ["groundwork/core"], function(core) {
                 this.options = Object.create(defaults);
             }
 
-            elements = this.getElements(scope);
+            elements = this.findElements(scope);
 
             for (i = 0, len = elements.length; i < len; i++) {
                 componentList = elements[i].getAttribute(this.options.attribute).split(",");
@@ -62,7 +62,7 @@ define("groundwork", ["groundwork/core"], function(core) {
         shutdown: function(scope) {
             var i, len, elements;
 
-            elements = this.getElements(scope);
+            elements = this.findElements(scope);
 
             for (i = 0, len = elements.length; i < len; i++) {
                 core.unloadElement(elements[i]);
@@ -78,29 +78,29 @@ define("groundwork", ["groundwork/core"], function(core) {
         reload: function() {
             var i, len, elements;
 
-            elements = this.getElements();
+            elements = this.findElements();
 
-            core.prune(elements);
+            core.prune();
 
             return this.startup();
         },
 
         /**
-         * Reload
+         * Find elements
          * @param  {Object} scope
          * @return {Array}
          */
-        getElements: function(scope) {
+        findElements: function(scope) {
             return (scope || this.options.scope).querySelectorAll("[" + this.options.attribute + "]");
         },
 
         /**
-         * Get component
+         * Get component instance
          * @param  {Object} element
          * @param  {String} componentName
          * @return {Object|Function}
          */
-        getComponent: function(element, componentName) {
+        getComponentInstance: function(element, componentName) {
             return core.getElementStorage(element)[componentName];
         }
 
