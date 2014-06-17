@@ -150,4 +150,39 @@ define(["groundwork/core"], function(core) {
 
     });
 
+    describe("Prune components", function() {
+
+        it("Should unload all components for elements no longer on the page", function() {
+
+            var fixture = document.createElement("div");
+            var storage = core.getElementStorage(fixture);
+            var spy_1 = jasmine.createSpy("component 1 teardown");
+            var spy_2 = jasmine.createSpy("component 2 teardown");
+
+            storage.foo = {
+                teardown: spy_1
+            };
+
+            storage.bar = {
+                teardown: spy_2
+            };
+
+            document.body.appendChild(fixture);
+
+            core.prune([fixture]);
+
+            expect(spy_1).not.toHaveBeenCalled();
+            expect(spy_2).not.toHaveBeenCalled();
+
+            document.body.removeChild(fixture);
+
+            core.prune([fixture]);
+
+            expect(spy_1).toHaveBeenCalled();
+            expect(spy_2).toHaveBeenCalled();
+
+        });
+
+    });
+
 });

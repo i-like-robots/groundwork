@@ -136,22 +136,13 @@ define("groundwork/core", function() {
          * @param {Array|NodeList} elements
          */
         prune: function(elements) {
-            var i, len, elementID, found;
+            var element, elementID;
 
             for (elementID in storage) {
+                element = storage[elementID].element;
 
-                // Presume no Array.prototype.indexOf
-                found = false;
-
-                for (i = 0, len = elements.length; i < len; i++) {
-                    if (elements[i].getAttribute("data-gw-id") === elementID) {
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found) {
-                    this.unloadElement(storage[elementID].element);
+                if (!document.documentElement.contains(element)) {
+                    this.unloadElement(element);
                 }
             }
         }
