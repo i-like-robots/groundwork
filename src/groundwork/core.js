@@ -1,11 +1,12 @@
 define("groundwork/core", function() {
 
+    "use strict";
+
     /**
      * Component instances
      * @type {Object}
      */
     var storage = {};
-
 
     /**
      * Public interface
@@ -13,27 +14,18 @@ define("groundwork/core", function() {
      */
     var exports = {
 
+        storage: {},
+
         /**
          * GUID
          * Creates a pseudo-unique ID.
          * @return {String}
          */
         GUID: function() {
-            return 'xxxx-xxxx-xxxx'.replace(/[x]/g, function(i) {
+            return "xxxx-xxxx-xxxx".replace(/[x]/g, function(i) {
                 return Math.ceil(Math.random() * 10).toString();
             });
         },
-
-        /**
-         * Get Elements
-         * @param  {Object} scope
-         * @param  {String} selector
-         * @return {NodeList}
-         */
-        getElements: function(scope, selector) {
-            return scope.querySelectorAll(selector);
-        },
-
 
         /**
          * Get element storage
@@ -45,28 +37,31 @@ define("groundwork/core", function() {
 
             if (!ID) {
                 ID = this.GUID();
-                storage[ID] = {};
+                storage[ID] = {
+                    element: element,
+                    components: {}
+                };
+
                 element.setAttribute("data-gw-id", ID);
             }
 
-            return storage[ID];
+            return storage[ID].components;
         },
-
 
         /**
          * New component
          * @param  {Object} element
-         * @param  {Function|Object} definition
+         * @param  {Function|Object} Definition
          * @return {Function|Object}
          */
-        newComponent: function(element, definition) {
+        newComponent: function(element, Definition) {
             var instance;
 
-            if (definition.call) {
-                instance = new definition(element);
+            if (Definition.call) {
+                instance = new Definition(element);
             }
             else {
-                instance = Object.create(definition);
+                instance = Object.create(Definition);
 
                 if (instance.hasOwnProperty("init")) {
                     instance.init(element);
@@ -75,7 +70,6 @@ define("groundwork/core", function() {
 
             return instance;
         },
-
 
         /**
          * Load component
@@ -93,6 +87,18 @@ define("groundwork/core", function() {
             }
         },
 
+        /**
+         * Load element
+         * @param  {Object} element
+         * @param  {Array} componentList
+         */
+        loadElement: function(element, componentList) {
+            var i, len;
+
+            for (i = 0, len = componentList.length; i < len; i++) {
+                this.loadComponent(element, componentList[i]);
+            }
+        },
 
         /**
          * Unload component
@@ -107,10 +113,40 @@ define("groundwork/core", function() {
             }
 
             delete store[componentName];
+        },
+
+        /**
+         * Unload element
+         * @param  {Object} element
+         */
+        unloadElement: function(element) {
+            var store, componentName;
+
+            store = this.getElementStorage(element);
+
+            for (componentName in store) {
+                if (store.hasOwnProperty(componentName)) {
+                    this.unloadComponent(element, componentName);
+                }
+            }
+        },
+
+        /**
+         * Prune
+         */
+        prune: function() {
+            var element, elementID;
+
+            for (elementID in storage) {
+                element = storage[elementID].element;
+
+                if (!document.documentElement.contains(element)) {
+                    this.unloadElement(element);
+                }
+            }
         }
 
     };
-
 
     return exports;
 

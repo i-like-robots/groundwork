@@ -12,17 +12,9 @@ module.exports = function(grunt) {
         },
 
         jshint: {
-            dist: {
-                all: "src/**/*.js",
-                options: {
-                    trailing: true,
-                    smarttabs: true,
-                    browser: true,
-                    globals: {
-                        define: false,
-                        require: false
-                    }
-                }
+            all: "src/**/*.js",
+            options: {
+                jshintrc: true
             }
         },
 

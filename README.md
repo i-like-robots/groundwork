@@ -60,7 +60,7 @@ A JavaScript module loader such as [RequireJS](http://www.requirejs.org/) or [cu
     ```html
     <!-- RequireJS -->
     <script src="vendor/require.js" data-main="js/bootstrap"></script>
-    
+
     <!-- curl.js -->
     <script src="vendor/curl.js" data-curl-run="js/bootstrap.js"></script>
     ```
@@ -71,6 +71,24 @@ A JavaScript module loader such as [RequireJS](http://www.requirejs.org/) or [cu
         groundwork.startup();
     });
     ```
+
+## API
+
+### `startup([scope])`
+
+Initialises all components within <var>scope</var>.
+
+### `shutdown([scope])`
+
+Teardown all component instances within <var>scope</var>.
+
+### `reload()`
+
+Teardown then re-initialise all components. Also cleans up component instances for elements no longer on the page.
+
+### `getComponentInstance(element, componentName)`
+
+Returns the ìnstance of <var>componentName</var> on <var>element</var>.
 
 ## Browser support
 

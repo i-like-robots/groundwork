@@ -24,21 +24,6 @@ define(["groundwork/core"], function(core) {
 
     });
 
-
-    describe("Get elements", function() {
-
-        it ("Should find DOM elements within a given scope", function() {
-
-            var scope = document.getElementById("core-get-elements");
-            var result = core.getElements(scope, "div");
-
-            expect(result.length).toEqual(2);
-
-        });
-
-    });
-
-
     describe("Get element storage", function() {
 
         var fixture = document.createElement("div");
@@ -55,7 +40,7 @@ define(["groundwork/core"], function(core) {
         it("Should assign an ID to the given element when no related storage is found", function() {
 
             var result = fixture.getAttribute("data-gw-id");
-            expect(result).toBeTruthy();
+            expect(result).toBeDefined();
 
         });
 
@@ -63,6 +48,7 @@ define(["groundwork/core"], function(core) {
 
             var storage = core.getElementStorage(fixture);
             storage.foo = "bar";
+
             var result = core.getElementStorage(fixture);
 
             expect(result.hasOwnProperty("foo")).toEqual(true);
@@ -70,7 +56,6 @@ define(["groundwork/core"], function(core) {
         });
 
     });
-
 
     describe("Create new component instance", function() {
 
@@ -101,7 +86,6 @@ define(["groundwork/core"], function(core) {
         });
 
     });
-
 
     describe("Load component", function() {
 
@@ -136,24 +120,23 @@ define(["groundwork/core"], function(core) {
 
     });
 
-
     describe("Unload component", function() {
 
         it("Should call the 'teardown' of the given component and remove it from storage", function() {
 
             var fixture = document.createElement("div");
             var storage = core.getElementStorage(fixture);
-            var spy_1 = jasmine.createSpy("spy");
-            var spy_2 = jasmine.createSpy("spy");
+            var spy_1 = jasmine.createSpy("component constructor");
+            var spy_2 = jasmine.createSpy("component object");
 
             var Mock = function() {};
             Mock.prototype.teardown = spy_1;
 
-            storage["foo"] = {
+            storage.foo = {
                 teardown: spy_2
             };
 
-            storage["bar"] = new Mock();
+            storage.bar = new Mock();
 
             core.unloadComponent(fixture, "foo");
             core.unloadComponent(fixture, "bar");
@@ -162,6 +145,41 @@ define(["groundwork/core"], function(core) {
             expect(spy_2).toHaveBeenCalled();
             expect(storage.foo).not.toBeDefined();
             expect(storage.bar).not.toBeDefined();
+
+        });
+
+    });
+
+    describe("Prune components", function() {
+
+        it("Should unload all components for elements no longer on the page", function() {
+
+            var fixture = document.createElement("div");
+            var storage = core.getElementStorage(fixture);
+            var spy_1 = jasmine.createSpy("component 1 teardown");
+            var spy_2 = jasmine.createSpy("component 2 teardown");
+
+            storage.foo = {
+                teardown: spy_1
+            };
+
+            storage.bar = {
+                teardown: spy_2
+            };
+
+            document.body.appendChild(fixture);
+
+            core.prune([fixture]);
+
+            expect(spy_1).not.toHaveBeenCalled();
+            expect(spy_2).not.toHaveBeenCalled();
+
+            document.body.removeChild(fixture);
+
+            core.prune([fixture]);
+
+            expect(spy_1).toHaveBeenCalled();
+            expect(spy_2).toHaveBeenCalled();
 
         });
 

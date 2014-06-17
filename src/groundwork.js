@@ -1,5 +1,6 @@
 define("groundwork", ["groundwork/core"], function(core) {
 
+    "use strict";
 
     /**
      * Default options
@@ -10,13 +11,11 @@ define("groundwork", ["groundwork/core"], function(core) {
         attribute: "data-gw-component"
     };
 
-
     /**
      * Public interface
      * @type {Object}
      */
     var exports = {
-
 
         /**
          * Set configuration options
@@ -32,68 +31,80 @@ define("groundwork", ["groundwork/core"], function(core) {
             return this;
         },
 
-
         /**
          * Startup
+         * @param  {Object} scope
          * @return {Object}
          */
-        startup: function() {
-            var i, t, len, len_t, element, componentList;
+        startup: function(scope) {
+            var i, len, elements, componentList;
 
             // Set default options if .config() has not been called
             if (!this.options) {
                 this.options = Object.create(defaults);
             }
 
-            this.elements = core.getElements(this.options.scope, "[" + this.options.attribute + "]");
+            elements = this.findElements(scope);
 
-            for (i = 0, len = this.elements.length; i < len; i++) {
-                element = this.elements[i];
-                componentList = element.getAttribute(this.options.attribute).split(",");
-
-                for (t = 0, len_t = componentList.length; t < len_t; t++) {
-                    core.loadComponent(element, componentList[t]);
-                }
+            for (i = 0, len = elements.length; i < len; i++) {
+                componentList = elements[i].getAttribute(this.options.attribute).split(",");
+                core.loadElement(elements[i], componentList);
             }
 
             return this;
         },
-
 
         /**
          * Shutdown
+         * @param  {Object} scope
          * @return {Object}
          */
-        shutdown: function() {
-            var i, len, element, activeComponents, componentName;
+        shutdown: function(scope) {
+            var i, len, elements;
 
-            for (i = 0, len = this.elements.length; i < len; i++) {
-                element = this.elements[i];
-                activeComponents = core.getElementStorage(element);
+            elements = this.findElements(scope);
 
-                for (componentName in activeComponents) {
-                    if (activeComponents.hasOwnProperty(componentName)) {
-                        core.unloadComponent(element, componentName);
-                    }
-                }
+            for (i = 0, len = elements.length; i < len; i++) {
+                core.unloadElement(elements[i]);
             }
 
             return this;
         },
 
+        /**
+         * Reload
+         * @return {Object}
+         */
+        reload: function() {
+            var i, len, elements;
+
+            elements = this.findElements();
+
+            core.prune();
+
+            return this.startup();
+        },
 
         /**
-         * Get component
+         * Find elements
+         * @param  {Object} scope
+         * @return {Array}
+         */
+        findElements: function(scope) {
+            return (scope || this.options.scope).querySelectorAll("[" + this.options.attribute + "]");
+        },
+
+        /**
+         * Get component instance
          * @param  {Object} element
          * @param  {String} componentName
          * @return {Object|Function}
          */
-        getComponent: function(element, componentName) {
+        getComponentInstance: function(element, componentName) {
             return core.getElementStorage(element)[componentName];
         }
 
     };
-
 
     return exports;
 
